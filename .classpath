@@ -2,5 +2,15 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="C:/Desenvolvimento/workspaces/sccd/SCCD_AudioToText/lib/speech-to-text-3.8.0.jar"/>
+	<classpathentry kind="lib" path="C:/Desenvolvimento/workspaces/sccd/SCCD_AudioToText/lib/core-3.8.0.jar"/>
+	<classpathentry kind="lib" path="C:/Desenvolvimento/workspaces/sccd/SCCD_AudioToText/lib/okhttp-3.8.0.jar"/>
+	<classpathentry kind="lib" path="C:/Desenvolvimento/workspaces/sccd/SCCD_AudioToText/lib/gson-2.8.0.jar"/>
+	<classpathentry kind="lib" path="C:/Desenvolvimento/workspaces/sccd/SCCD_AudioToText/lib/commons-lang3-3.5.jar"/>
+	<classpathentry kind="lib" path="C:/Desenvolvimento/workspaces/sccd/SCCD_AudioToText/lib/jersey-jsr166e-2.25.jar"/>
+	<classpathentry kind="lib" path="C:/Desenvolvimento/workspaces/sccd/SCCD_AudioToText/lib/logging-interceptor-3.8.0.jar"/>
+	<classpathentry kind="lib" path="C:/Desenvolvimento/workspaces/sccd/SCCD_AudioToText/lib/okhttp-urlconnection-3.8.0.jar"/>
+	<classpathentry kind="lib" path="C:/Desenvolvimento/workspaces/sccd/SCCD_AudioToText/lib/okio-1.13.0.jar"/>
+	<classpathentry kind="lib" path="C:/Desenvolvimento/workspaces/sccd/SCCD_AudioToText/lib/javamail-1.4.5/mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
