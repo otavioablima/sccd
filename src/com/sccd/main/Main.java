@@ -23,6 +23,7 @@ import javax.mail.internet.MimeMessage;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
+import com.ibm.watson.developer_cloud.speech_to_text.v1.model.Transcript;
 
 public class Main {
 
@@ -42,18 +43,44 @@ public class Main {
     		RecognizeOptions options = new RecognizeOptions.Builder()
     				.contentType("audio/wav")
     				.model("pt-BR_NarrowbandModel")
-    				.timestamps(true).build();
+    				.maxAlternatives(3)
+    				.inactivityTimeout(-1)
+    				.build();
     		
     		for (File file : dir.listFiles()) {
     			System.out.println("Identificando audio do arquivo " + file.getName());
     			SpeechResults results = service.recognize(file, options).execute();
     			//System.out.println(results);
-    			String audioTranscription = results.getResults().get(0).getAlternatives().get(0).getTranscript();
+    			System.out.println("-----------------\n\n" + results + "-----------------\n\n");
+    			//String audioTranscription = results.getResults().get(0).getAlternatives().get(0).getTranscript();
+    			StringBuilder audioTranscription = new StringBuilder();
     			
+    			for(Transcript transcript : results.getResults()) {
+    				if (transcript.getAlternatives().get(0).getConfidence() >= 0.6) {
+    					audioTranscription.append(transcript.getAlternatives().get(0).getTranscript().trim()).append(". ");
+    				}
+    			}
+    			
+    			System.out.println("Transcrição do áudio: " + audioTranscription.toString());
+    			
+    			/*boolean retorno = sendMail(props.getProperty("mail.server.sender"),
+						props.getProperty("mail.server.receiver"),
+						"Abertura de chamado via URA",
+						audioTranscription.toString(),
+						props.getProperty("mail.server.host"),
+						props.getProperty("mail.server.port"));
+				moveFile(file, props.getProperty("out.dir"));
+				
+				if (retorno) {
+					System.out.println("E-mail enviado.");
+				} else {
+					System.out.println("Falha ao enviar e-mail.");
+				}*/
+    			
+    			/*
     			if (results.getResults().get(0).getAlternatives().get(0).getConfidence() >= 0.60) {
     				System.out.println("E-mail enviado.");
-    				System.out.println("Transcrição do áudio: " + audioTranscription);
-    				//sendMail(audioTranscription);
+    				System.out.println("Transcrição do áudio: " + audioTranscription.toString());
     				sendMail(props.getProperty("mail.server.sender"),
     						props.getProperty("mail.server.receiver"),
     						"Abertura de chamado via URA",
@@ -63,9 +90,10 @@ public class Main {
     				moveFile(file, props.getProperty("out.dir"));
     			} else {
     				System.out.println("E-mail não enviado devido grau de confiança do reconhecimento estar abaixo de 60%.");
-    				System.out.println("Transcrição do áudio: " + audioTranscription);
+    				System.out.println("Transcrição do áudio: " + audioTranscription.toString());
     				moveFile(file, props.getProperty("error.dir"));
     			}
+    			*/
     		}
     		
         } catch (FileNotFoundException e) {
@@ -75,7 +103,7 @@ public class Main {
         }
 	}
 	
-	private static void sendMail(String from, String to, String subject, String desc, String mailServer, String mailPort) {
+	private static boolean sendMail(String from, String to, String subject, String desc, String mailServer, String mailPort) {
 		Properties props = new Properties();
         
         props.put("mail.smtp.host", mailServer);
@@ -96,7 +124,7 @@ public class Main {
 			message.setText(desc);
 			
 			Transport.send(message);
-			
+			return true;
         } catch (MessagingException e) {
         	throw new RuntimeException(e);
         }
